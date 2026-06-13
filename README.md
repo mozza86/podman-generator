@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Podman Generator
+
+This project is a Next.js application designed to facilitate the generation of Podman-related configurations or artifacts. It provides a user-friendly interface to streamline the process of creating and managing Podman environments.
+
+## Features
+
+*   **Next.js**: A React framework for building performant web applications.
+*   **React**: A JavaScript library for building user interfaces.
+*   **Tailwind CSS**: A utility-first CSS framework for rapid UI development.
+*   **Biome**: A fast formatter and linter for JavaScript, TypeScript, and JSON.
+*   **Containerization**: Ready for deployment with Docker/Podman using the provided `Dockerfile`.
+*   **LZ-String**: For efficient string compression/decompression, likely used for sharing or storing configurations.
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to set up and run the project locally.
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+*   Node.js (LTS version recommended)
+*   npm or yarn
+
+### Installation
+
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/your-username/podman-generator.git
+    cd podman-generator
+    ```
+2.  Install dependencies:
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
+
+### Running the Development Server
+
+To start the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Available Scripts
 
-## Learn More
+In the project directory, you can run:
 
-To learn more about Next.js, take a look at the following resources:
+*   `npm run dev`: Starts the development server.
+*   `npm run build`: Builds the application for production.
+*   `npm run start`: Starts a production-ready server after building.
+*   `npm run lint`: Runs Biome linter to check for code quality issues.
+*   `npm run format`: Runs Biome formatter to automatically format code.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This application can be easily containerized using Docker or Podman. A `Dockerfile` is provided for building a production-ready image.
 
-## Deploy on Vercel
+To build the Docker/Podman image:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+docker build -t podman-generator .
+# or
+podman build -t podman-generator .
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+To run the container:
+
+```bash
+docker run -p 3000:3000 podman-generator
+# or
+podman run -p 3000:3000 podman-generator
+```
