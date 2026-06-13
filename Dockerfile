@@ -44,6 +44,9 @@ COPY --from=dependencies /app/node_modules ./node_modules
 # Copy application source code
 COPY . .
 
+# Ensure public folder exists so COPY in runner stage doesn't fail
+RUN mkdir -p public
+
 ENV NODE_ENV=production
 
 # Next.js collects completely anonymous telemetry data about general usage.

@@ -40,7 +40,11 @@ export default function Home() {
     const encoded = LZString.compressToEncodedURIComponent(
         JSON.stringify(payload),
     );
-    const shareUrl = `${window.location.origin}/share/${encoded}`;
+    const [shareUrl, setShareUrl] = useState("");
+
+    useEffect(() => {
+        setShareUrl(`${window.location.origin}/share/${encoded}`);
+    }, [encoded]);
 
     function onVolumeAdd(volume: VolumeDisplayProps) {
         setAppVolumes((prev) => [...prev, volume]);
