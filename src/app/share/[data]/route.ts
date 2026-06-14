@@ -37,6 +37,11 @@ async function handler(request: Request, { params }: RouteParams) {
 
 
     const out = `
+if [[ "$1" == "-y" ]]; then
+    SKIP_PROMPT=true
+fi
+
+
 echo ">>> mkdir -p /etc/containers/systemd/"
 mkdir -p /etc/containers/systemd/
 echo ">>> cat << 'EOF' | tee /etc/containers/systemd/${appName}.container > /dev/null
@@ -48,17 +53,26 @@ ${config}
 EOF
 ${payload.volumes.map(volumeToBash).join("\n")}
 
-read -p "Reload systemd daemon? (y/N): " resp
+
+if [ "$SKIP_PROMPT" = true ]; then
+    resp="y"
+else
+    read -p "Reload systemd daemon? (y/N): " resp < /dev/tty
+fi
+
 if [[ "$resp" =~ ^[Yy](es)?$ ]]; then
     echo ">>> systemctl daemon-reload"
     systemctl daemon-reload
-    
-    read -p "Start service? (y/N): " resp2
-    if [[ "$resp2" =~ ^[Yy](es)?$ ]]; then
-        echo ">>> systemctl start ${appName}"
-        systemctl start ${appName}
+    if [ "$SKIP_PROMPT" = true ]; then
+        resp="y"
     else
-        echo "Cancelled start service."
+        read -p "Start service? (y/N): " resp2 < /dev/tty
+        if [[ "$resp2" =~ ^[Yy](es)?$ ]]; then
+            echo ">>> systemctl start ${appName}"
+            systemctl start ${appName}
+        else
+            echo "Cancelled start service."
+        fi
     fi
 else
     echo "Cancelled daemon reload."
