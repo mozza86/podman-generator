@@ -6,6 +6,8 @@ import VolumeDisplay, {
     type VolumeDisplayProps,
 } from "@/components/VolumeDisplay";
 import LZString from "lz-string";
+import { ClipboardCopy } from "lucide-react";
+import CodeBlock from "@/components/CodeBlock";
 
 export const dynamic = "force-dynamic";
 
@@ -208,25 +210,16 @@ WantedBy=default.target`;
 
                     {shareUrl ? (
                         <>
-                            <span>
-                                curl -sSL
-                                <a
-                                    className="text-sm text-blue-600 underline break-all"
-                                    href={shareUrl}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    {shareUrl}
-                                </a>
-                                | sudo bash -s -- -y
-                            </span>
-                            <button type={"button"} onClick={() => navigator.clipboard.writeText(`curl -sSL ${shareUrl} | sudo bash`)} className="text-sm cursor-pointer text-gray-500 hover:text-gray-700">
-                                Copy command
-                            </button>
-
-                            <button type={"button"} onClick={() => navigator.clipboard.writeText(`curl -sSL ${shareUrl} | sudo bash -s -- -y`)} className="text-sm cursor-pointer text-gray-500 hover:text-gray-700">
-                                Copy auto approve command
-                            </button>
+                            <a
+                                className="text-xs text-blue-600 underline break-all"
+                                href={shareUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                {shareUrl}
+                            </a>
+                            <CodeBlock shareUrl={shareUrl} />
+                            <CodeBlock shareUrl={shareUrl} autoapprove={true} />
                         </>
                     ) : null}
                 </section>

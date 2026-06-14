@@ -35,12 +35,14 @@ async function handler(request: Request, { params }: RouteParams) {
         appVolumes: payload.volumes,
     });
 
-
     const out = `
+#!/bin/bash
+
+SKIP_PROMPT=false
+
 if [[ "$1" == "-y" ]]; then
     SKIP_PROMPT=true
 fi
-
 
 echo ">>> mkdir -p /etc/containers/systemd/"
 mkdir -p /etc/containers/systemd/
