@@ -1,6 +1,6 @@
 import LZString from "lz-string";
 import { NextResponse } from "next/server";
-import { buildConfig } from "@/components/ConfigDisplay";
+import {buildConfig, VolumeSpec} from "@/components/ConfigDisplay";
 import { buildVolume, VolumeDisplayProps } from "@/components/VolumeDisplay";
 
 export const dynamic = "force-dynamic";
@@ -35,8 +35,14 @@ async function handler(request: Request, { params }: RouteParams) {
         appVolumes: payload.volumes,
     });
 
-    const out = `
-#!/bin/bash
+    const out = `#!/bin/bash
+
+# name: ${payload.name}
+# description: ${payload.description}
+# image: ${payload.image}
+# port: ${payload.port}
+# domain: ${payload.domain}
+# volumes: ${payload.volumes.map((v: VolumeSpec) => v.volName).join(", ")}
 
 SKIP_PROMPT=false
 
