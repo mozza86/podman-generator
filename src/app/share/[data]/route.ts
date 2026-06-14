@@ -37,11 +37,33 @@ async function handler(request: Request, { params }: RouteParams) {
 
 
     const out = `
+echo ">>> mkdir -p /etc/containers/systemd/"
 mkdir -p /etc/containers/systemd/
+echo ">>> cat << 'EOF' | tee /etc/containers/systemd/${appName}.container > /dev/null
+${config}
+EOF
+${payload.volumes.map(volumeToBash).join("\n")}"
 cat << 'EOF' | tee /etc/containers/systemd/${appName}.container > /dev/null
 ${config}
 EOF
 ${payload.volumes.map(volumeToBash).join("\n")}
+
+read -p "Reload systemd daemon? (y/N): " resp
+if [[ "$resp" =~ ^[Yy](es)?$ ]]; then
+    echo ">>> systemctl daemon-reload"
+    systemctl daemon-reload
+    
+    read -p "Start service? (y/N): " resp2
+    if [[ "$resp2" =~ ^[Yy](es)?$ ]]; then
+        echo ">>> systemctl start ${appName}"
+        systemctl start ${appName}
+    else
+        echo "Cancelled start service."
+    fi
+else
+    echo "Cancelled daemon reload."
+fi
+
 `;
 
     return new NextResponse(out);

@@ -74,7 +74,7 @@ export default function Home() {
         }
     }, [appName, isAppDomainManual]);
 
-    const config = `# /etc/containers/systemd/parcels-api.container
+    const config = `# /etc/containers/systemd/${appName}.container
 
 [Unit]
 Description=${appDescription}
