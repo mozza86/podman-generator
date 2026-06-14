@@ -208,16 +208,24 @@ WantedBy=default.target`;
 
                     {shareUrl ? (
                         <>
-                            <a
-                                className="text-sm text-blue-600 underline break-all"
-                                href={shareUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {shareUrl}
-                            </a>
-                            <button type={"button"} onClick={() => navigator.clipboard.writeText(`curl ${shareUrl} | sudo bash`)} className="text-sm cursor-pointer text-gray-500 hover:text-gray-700">
-                                Copy Share URL
+                            <span>
+                                curl -sSL
+                                <a
+                                    className="text-sm text-blue-600 underline break-all"
+                                    href={shareUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    {shareUrl}
+                                </a>
+                                | sudo bash -s -- -y
+                            </span>
+                            <button type={"button"} onClick={() => navigator.clipboard.writeText(`curl -sSL ${shareUrl} | sudo bash`)} className="text-sm cursor-pointer text-gray-500 hover:text-gray-700">
+                                Copy command
+                            </button>
+
+                            <button type={"button"} onClick={() => navigator.clipboard.writeText(`curl -sSL ${shareUrl} | sudo bash -s -- -y`)} className="text-sm cursor-pointer text-gray-500 hover:text-gray-700">
+                                Copy auto approve command
                             </button>
                         </>
                     ) : null}
